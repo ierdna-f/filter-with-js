@@ -8,26 +8,17 @@ const hideAllCards = () => cards.forEach(hideCard)
 const hideCard = (card) => card.style.display = "none"
 const showCard = (card) => card.style.display = "block"
 
-// filter function
 const filterValues = () => {
-  if(!filter.value || filter.value == '') {
-    showAllCards()
-    return
-  }
+  // show all elements if there's no filter
+  if(filter.value == '') return showAllCards()
 
-  const filterTextLC = filter.value.toLowerCase()
-  for(const card of cards){
-    const titleLC = card.querySelector('h2').textContent.toLowerCase()
-
-    if(titleLC.includes(filterTextLC)){
-      showCard(card)
-      continue;
-    }
-    hideCard(card)
-    
-  }
-
+  const filterText = filter.value.toLowerCase()
+  cards.forEach(card => filterElement(card, filterText))
 }
 
-// add input event for the filter element
+function filterElement(card, filterText){
+    const title = card.querySelector('h2').textContent.toLowerCase()
+    title.includes(filterText) ? showCard(card) : hideCard(card)
+}
+
 filter.addEventListener('input', filterValues)
